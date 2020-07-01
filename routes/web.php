@@ -20,3 +20,18 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('skills', 'SkillController@index')->name('skills');
+Route::get('levels', 'LevelController@index')->name('levels');
+Route::get('skills/create', 'SkillController@create')->name('skills.create');
+Route::post('skills', 'SkillController@store')->name('skills.store');
+Route::get('skills/{skill}', 'SkillController@show')->name('skills.show');
+
+Route::get('skills/{skill}/edit', 'SkillController@edit')->name('skills.edit');
+Route::put('skills/{skill}', 'SkillController@update')->name('skills.update');
+
+Route::delete('skills/{skill}', 'SkillController@destroy')->name('skills.delete');
+
+
+
+
+
