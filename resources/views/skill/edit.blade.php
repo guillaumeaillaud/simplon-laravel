@@ -8,6 +8,8 @@
                 <div class="card-header">{{ __('Edit a skill') }} (skill number {{$skill->id}}) </div>
 
                 <div class="card-body">
+                    <!--  on va traiter les données envoyées dans la route skills.update qui est dans le fichier web (qui contient les routes)-->
+                    <!--  dans le fichier web la route dirige vers le fichier skillController qui appele la methode-->
                     <form method="POST" action="{{ route('skills.update', $skill)}}">
                         @csrf
                         @method('PUT')

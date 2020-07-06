@@ -14,6 +14,7 @@ class LevelController extends Controller
      */
     public function index()
     {
+        //on appel la class Level qui est une extension de la class Model qui recup automatiquement toutes les données de la table level puis on les mets dans la variable level
         $level = Level::all();
         return view('level.index', ['levels' => $level]);
     }
@@ -25,7 +26,7 @@ class LevelController extends Controller
      */
     public function create()
     {
-        //
+        return view('level.create');
     }
 
     /**
@@ -36,7 +37,13 @@ class LevelController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $level = new Level();
+        $validatedData = $request->validate([
+            'level_label' => 'required|unique:levels',
+        ]);
+        $level->level_label = $validatedData['level_label'];
+        $level->save();
+        return redirect()->route('levels');
     }
 
     /**
@@ -47,7 +54,9 @@ class LevelController extends Controller
      */
     public function show(Level $level)
     {
-        //
+        // la methode show va retourner la vue show.blade.php qui se trouve dans le repertoire ( dossier) ressources/views
+        // on passe en parametre a notre vue les données qu'on veut pouvoir aficher
+        return view('level.show', ["level" => $level]);
     }
 
     /**
@@ -58,7 +67,7 @@ class LevelController extends Controller
      */
     public function edit(Level $level)
     {
-        //
+        return view('level.edit', ['level' => $level]);
     }
 
     /**
@@ -70,7 +79,13 @@ class LevelController extends Controller
      */
     public function update(Request $request, Level $level)
     {
-        //
+        // $level = new Level();
+        $validatedData = $request->validate([
+            'level_label' => 'required|unique:levels',
+        ]);
+        $level->level_label = $validatedData['level_label'];
+        $level->update();
+        return redirect()->route('levels');
     }
 
     /**
@@ -81,6 +96,7 @@ class LevelController extends Controller
      */
     public function destroy(Level $level)
     {
-        //
+        $level->delete();
+        return redirect()->route('levels');
     }
 }
