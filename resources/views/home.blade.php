@@ -1,87 +1,42 @@
-ext@ends('layouts.app')
+@extends('layouts.app')
 
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Dashboard</div>
-
+                <div class="card-header">Update profile</div>
                 <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
+                    {{--set up flash message for user feedback (message de confirmation du update user)--}}
+                    @if(session('success'))
+                    <div class="alert alert-success" role="alert">
+                        {{ session('success') }}
+                    </div>
                     @endif
-
-                    You are logged in!
+                    {{-- on check si le user est connecte--}}
+                    @if (Auth::user())
+                    {{--il faut donner a l'attribut action du formulaire la reference d'une route--}}
+                    <form action="{{ route('user.update', ['user' => Auth::user()])}}" method="post">
+                        {{-- on check si on a bien le token d'identification de user avec le csrf--}}
+                        @csrf
+                        @method('PUT')
+                        <div class="form-group row">
+                            <label for="name" class="col-md-4 col-form-label text-md-right">{{__('User name')}}</label>
+                            <input type="text" name="name" id="name" class="form-control" @error('name') is-invalid @enderror required autocomplete="name" autofocus value="{{ Auth::user()->name}}">
+                            <label for="email" class="col-md-4 col-form-label text-md-right">{{__('User email')}}</label>
+                            <input type="email" name="email" id="email" class="form-control" @error('email') is-invalid @enderror required autocomplete="email" autofocus value="{{ Auth::user()->email}}">
+                        </div>
+                        <div class="form groupe">
+                            <button type="submit" class="btn btn-primary">
+                                {{ __('Update user') }}
+                            </button>
+                        </div>
+                    </form>
+                    @endif
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-<div class="container mt-4">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">
-                    <p>Liste des utilisateurs</p>
-                </div>
-                @foreach ($users as $user)
-                <div class="card-body">
-                    <div class="mt-4">
-                            <p>User name {{ $user->name }}</p>
-                            <p>User email {{ $user->email }}</p>
-                        </div>
-                    </div>
-                    @endforeach
-            </div>
-            <div class="card mt-4">
-                <div class="card-header">
-                    <p>Liste des skills</p>
-                </div>
-                @foreach ($skills as $skill)
-                <div class="card-body">
-                    <div class="mt-4">
-                            <p>Skill name {{ $skill->name }}</p>
-                        </div>
-                    </div>                    
-                    @endforeach
-            </div>
-
-            <div class="card mt-4">
-                <div class="card-header">
-                    <p>Liste des competences</p>
-                </div>
-                @foreach ($skills as $skill)
-                <div class="card-body">
-                    <div class="mt-4">
-                            <p>Nom de la compétence {{ $skill->name }}</p>
-                        </div>
-                    </div>
-                    @endforeach
-            </div>
-
-            <div class="card mt-4">
-                <div class="card-header">
-                    <p>Liste des competences pour l'utilisateur {{ $skills_user_level[0]->username }}</p>
-                </div>
-                <div class="card-body">
-                    <div class="mt-4">
-                        @foreach ($skills_user_level as $skill_user_level)
-                            <div>
-                                <p>Nom de la compétence : {{ $skill_user_level->name }}</p>
-                                <p>Niveau : {{ $skill_user_level->level_label }}</p>
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</div>
-
 
 @endsection

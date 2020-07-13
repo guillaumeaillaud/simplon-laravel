@@ -46,4 +46,6 @@ class User extends Authenticatable
     public function levels(){
         return $this->belongsToMany(Level::class, 'level_skill_user');
     }
+
+  
 }

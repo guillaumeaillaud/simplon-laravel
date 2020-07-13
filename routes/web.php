@@ -19,6 +19,9 @@ Route::get('/', function () {
 
 Auth::routes();
 
+// on crée la route pour le formulaire qui est dans la page home pour modifier les infos user
+Route::put('users/{user}/edit', 'UserController@update')->name('user.update');
+
 // les parametres sont  '/home' qui correspond a l'URL du navigateur
 //                      'HomeController' correspond au fichier dans lequel on va traiter la requete du serveur
 //                      '@index' correspond a la method que l'on va chercher dans HomeController
@@ -51,7 +54,10 @@ Route::get('skills/{skill}/edit', 'SkillController@edit')->name('skills.edit');
 Route::put('skills/{skill}', 'SkillController@update')->name('skills.update');
 Route::delete('skills/{skill}', 'SkillController@destroy')->name('skills.delete');
 
-
+//on va creer une route pour montrer se que contient level_skill_user
+Route::get('level_skill_user', 'LevelSkillUserController@index')->name('level_skill_user');
+Route::get('level_skill_user/{level}', 'LevelSkillUserController@show')->name('level_skill_user.show');
+// on crée une route pour modifier un level avec une route en get
 
 
 
